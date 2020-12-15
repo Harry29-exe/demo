@@ -1,0 +1,9 @@
+{
+  "product": {
+    "id": 1,
+    "name": "apple",
+    "description": "great fruit",
+    "price": 2.5,
+    "imgUrl": "none url"
+  }
+}

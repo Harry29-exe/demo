@@ -52,13 +52,13 @@
                     document.getElementById('results').innerText = "Błąd: req statust:" + request.status;
                 }
             }
-            request.open("GET", url + "/textObject?id=" + document.getElementById('id').value);
+            request.open("GET", url + "/product?id=" + document.getElementById('id').value);
             request.send(null);
         }
 
         function requestPost() {
             let request = new XMLHttpRequest();
-            request.open("POST", url + "/textObject");
+            request.open("POST", url + "/product");
             let body =
                 {id: parseInt(document.getElementById('id').value),
                     text: document.getElementById('text').value,
@@ -70,7 +70,7 @@
 
         function requestRemove() {
             let request = new XMLHttpRequest();
-            request.open("DELETE", url + "/secured/textObject?id=" + document.getElementById('id').value);
+            request.open("DELETE", url + "/secured/product?id=" + document.getElementById('id').value);
             request.onreadystatechange = function () {
                 if (request.readyState === 4 && request.status !== 200) {
                     document.getElementById('results').innerHTML = "please login: <a href='/login'>login</a>";
