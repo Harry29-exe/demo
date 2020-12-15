@@ -18,13 +18,12 @@ public class ProductMapping {
         this.productRepo = productRepo;
     }
 
+
     @GetMapping("/products")
     public List<Product> getTextObjects(
             @RequestParam(required = false) Integer amount,
             @RequestParam(required = false) Boolean allDetails) {
-        amount = amount == null? 100: amount;
-
-
+        amount = amount == null ? 100 : amount;
         return productRepo.getProducts(amount);
     }
 

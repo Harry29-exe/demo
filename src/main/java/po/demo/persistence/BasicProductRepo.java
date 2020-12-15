@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class BasicProductRepo implements ProductRepo{
+public class BasicProductRepo implements ProductRepo {
 
     private final SessionFactory sessionFactory;
 
@@ -28,16 +28,16 @@ public class BasicProductRepo implements ProductRepo{
             ex.printStackTrace();
         }
 
-        return products != null && products.size() > 0? products: null;
+        return products != null && products.size() > 0 ? products : null;
     }
 
     @Override
     public List<Product> getProducts(int amount) {
         List<Product> products = this.getProducts();
 
-        if(products == null || products.size() == 0)
+        if (products == null || products.size() == 0)
             return null;
-        else if(products.size() > amount)
+        else if (products.size() > amount)
             return products.subList(0, amount);
         else
             return products;

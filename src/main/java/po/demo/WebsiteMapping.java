@@ -19,7 +19,7 @@ public class WebsiteMapping {
     @GetMapping(value = "/productDetails")
     public ResponseEntity<String> getProductDetails(@RequestParam int id) {
         String html = fileToString(new File("src\\main\\resources\\static\\product-details.html"));
-        html = html.replace("---id---", ""+ id);
+        html = html.replace("---id---", "" + id);
 
         return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(html);
     }
