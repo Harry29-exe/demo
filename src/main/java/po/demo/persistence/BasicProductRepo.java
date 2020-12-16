@@ -33,14 +33,28 @@ public class BasicProductRepo implements ProductRepo {
 
     @Override
     public List<Product> getProducts(int amount) {
-        List<Product> products = this.getProducts();
+//        List<Product> products = this.getProducts();
+//
+//        if (products == null || products.size() == 0)
+//            return null;
+//        else if (products.size() > amount)
+//            return products.subList(0, amount);
+//        else
+//            return products;
+        EntityManager em = sessionFactory.createEntityManager();
+        TypedQuery<Product> query = em.createQuery(
+                "SELECT p FROM Product p",
+                Product.class);
+        query.setMaxResults(amount);
+        List<Product> products = null;
 
-        if (products == null || products.size() == 0)
-            return null;
-        else if (products.size() > amount)
-            return products.subList(0, amount);
-        else
-            return products;
+        try {
+            products = query.getResultList();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return products != null && products.size() > 0 ? products : null;
     }
 
     @Override

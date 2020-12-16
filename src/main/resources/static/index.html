@@ -9,77 +9,42 @@
             background-color: #575757;
             color: #eeeeee;
             text-align: center;
+            font-size: 20px;
         }
     </style>
 </head>
-<body>
-    <label for="id">ID: </label>
-    <input id="id" type="text"> <br>
-    <label for="text">Text: </label>
-    <input id="text" type="text"> <br>
-    <label for="color">Color hex: </label>
-    <input id="color" type="text"> <br>
+<body onload="init()">
+    <h2>Ours Products</h2>
+    <div id="productList">
 
-    <br>
-    <br>
-
-    <button id="remove" onclick="requestRemove()">Remove</button>
-    <button id="post" onclick="requestPost()">Post</button>
-    <button id="get" onclick="requestGet()">Get</button>
-
-    <br><br>
-
-    <div id="results" style="background-color: #2a4141; width: 30%; margin-left: 35%; font-size: 20px">
-        <h1>
-            <br>
-            <br>
-        </h1>
     </div>
 
     <script>
-        // const url = "http://localhost:8080";
-        const url = "https://demo-rest-po.herokuapp.com";
+        const url = "http://localhost:8080";
+        //const url = "https://demo-rest-po.herokuapp.com";
 
-        function requestGet() {
+        function init() {
             let request = new XMLHttpRequest();
             request.onreadystatechange = function () {
                 if (request.readyState === 4 && request.status === 200) {
                     console.log(request.responseText);
                     let response = JSON.parse(request.responseText);
-                    document.getElementById('results').innerText = response.text;
-                    document.getElementById('results').style.color = '#' + response.hexColor.toString(16);
+                    createProductList(response);
                 } else if(request.readyState === 4) {
-                    document.getElementById('results').innerText = "Błąd: req statust:" + request.status;
+                    document.getElementById('productList').innerText = "Błąd: req statust:" + request.status;
                 }
             }
-            request.open("GET", url + "/product?id=" + document.getElementById('id').value);
+            request.open("GET", url + "/api/products?allDetails=false");
             request.send(null);
         }
 
-        function requestPost() {
-            let request = new XMLHttpRequest();
-            request.open("POST", url + "/product");
-            let body =
-                {id: parseInt(document.getElementById('id').value),
-                    text: document.getElementById('text').value,
-                    hexColor: parseInt(document.getElementById('color').value, 16) }
-            request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            console.log(JSON.stringify(body));
-            request.send(JSON.stringify(body));
-        }
-
-        function requestRemove() {
-            let request = new XMLHttpRequest();
-            request.open("DELETE", url + "/secured/product?id=" + document.getElementById('id').value);
-            request.onreadystatechange = function () {
-                if (request.readyState === 4 && request.status !== 200) {
-                    document.getElementById('results').innerHTML = "please login: <a href='/login'>login</a>";
-                    document.getElementById('results').style.color = '#eeeeee';
-                }
+        function createProductList(productList) {
+            let container = document.getElementById('productList');
+            container.innerHTML= "";
+            for (let i =0 ; i < productList.length; i++) {
+                container.innerHTML += "<a href='" + url + "/productDetails?id=" + productList[i].id +"'><button>Details</button></a> " + productList[i].name +"<br>";
             }
-            request.send(null);
         }
-
     </script>
 </body>
 </html>
