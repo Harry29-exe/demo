@@ -29,12 +29,13 @@
                 if (request.readyState === 4 && request.status === 200) {
                     console.log(request.responseText);
                     let response = JSON.parse(request.responseText);
+                    debugger;
                     createProductList(response);
                 } else if(request.readyState === 4) {
                     document.getElementById('productList').innerText = "Błąd: req statust:" + request.status;
                 }
             }
-            request.open("GET", url + "/api/products?allDetails=false");
+            request.open("GET", url + "/api/products?allDetails=true");
             request.send(null);
         }
 
@@ -42,7 +43,8 @@
             let container = document.getElementById('productList');
             container.innerHTML= "";
             for (let i =0 ; i < productList.length; i++) {
-                container.innerHTML += "<a href='" + url + "/productDetails?id=" + productList[i].id +"'><button>Details</button></a> " + productList[i].name +"<br>";
+                container.innerHTML += "<a href='" + url + "/productDetails?id=" + productList[i].id +
+                    "'><button>Details</button></a> " + productList[i].name +"<br>";
             }
         }
     </script>
