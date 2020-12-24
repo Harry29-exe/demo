@@ -29,8 +29,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, String name, String description, float price, String imgUrl) {
-        this.id = id;
+    public Product(String name, String description, float price, String imgUrl) {
         this.name = name;
         this.description = description;
         this.price = price;

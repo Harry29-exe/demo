@@ -1,7 +1,6 @@
 package po.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import po.demo.persistence.Product;
 import po.demo.persistence.ProductRepo;
@@ -31,7 +30,7 @@ public class ProductMapping {
         if (allDetails == null || allDetails)
             return products;
 
-        for(Product p : products) {
+        for (Product p : products) {
             p.setImgUrl(null);
             p.setDescription(null);
         }
@@ -45,11 +44,25 @@ public class ProductMapping {
 
     @DeleteMapping("/product")
     public void deleteProduct(@RequestParam int id, HttpServletResponse response) {
-        response.setStatus(501);
+        try {
+            productRepo.removeProduct(id);
+        } catch (Exception ex) {
+            response.setStatus(500);
+            return;
+        }
+
+        response.setStatus(200);
     }
 
     @PostMapping("/product")
     public void addProduct(@RequestBody Product product, HttpServletResponse response) {
-        response.setStatus(501);
+        try {
+            productRepo.addProduct(product);
+        } catch (Exception ex) {
+            response.setStatus(500);
+            return;
+        }
+
+        response.setStatus(200);
     }
 }
